@@ -1,1 +1,0 @@
-"use strict";window.onload=function(){var t={x:250,y:450},e=function e(n){var c=t.x,i=t.y;return Object.assign(t,{x:c+2,y:i-2})},n=function t(e,n,c){n.clearRect(0,0,c.width,c.height),n.fillRect(e.x,e.y,6,6)},c=function c(){var i=document.getElementById("screen"),o=i.getContext("2d");t=e(t),n(t,o,i)};setInterval(c,10)};

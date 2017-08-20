@@ -1,25 +1,31 @@
 window.onload = function() {
 
-    let ball = { x: 250, y: 450 }
-
-    let update = function(state) {
-        let x = ball.x
-        let y = ball.y
-        return Object.assign(ball, { x: x + 2, y: y - 2 } )
-    }
-
-    let draw = function(ball, ctx, canvas) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-        ctx.fillRect(ball.x, ball.y, 6, 6)
-    }
-
-    let gameLoop = function() {
+    function gameLoop() {
         let canvas = document.getElementById("screen")
         let ctx = canvas.getContext('2d')
-        ball = update(ball)
-        draw(ball, ctx, canvas)
+        setup(canvas, ctx)
     }
 
-setInterval(gameLoop, 10)
+    function setup(canvas, ctx) {
+        const initialState = {
+            ...setupBall
+        }
+        play(initialState, canvas, ctx)
+    }
 
+    function play(state, canvas, ctx) {
+
+        console.log('game loop')
+
+        window.requestAnimationFrame(function(){
+            play(state, canvas, ctx)
+        })
+    }
+
+    const setupBall = {
+        position: { x: 250, y: 450 },
+        velocity: { x: 2, y: 2 }
+    }
+
+    gameLoop()
 }
