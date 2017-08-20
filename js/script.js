@@ -37,12 +37,10 @@ window.onload = function() {
     }
 
     function drawBall({state, canvas, ctx}) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.fillRect(state.ball.position.x, state.ball.position.y, 6, 6)
     }
 
     function drawPlayer({state, canvas, ctx}) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.fillRect(state.player.position.x, state.player.position.y, 100, 5)
     }
 
