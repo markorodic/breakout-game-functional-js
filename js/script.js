@@ -14,9 +14,7 @@ window.onload = function() {
     }
 
     function play(state, canvas, ctx) {
-
-        console.log('game loop')
-
+        draw({ state: state, canvas, ctx })
         window.requestAnimationFrame(function(){
             play(state, canvas, ctx)
         })
@@ -25,6 +23,17 @@ window.onload = function() {
     const setupBall = {
         position: { x: 250, y: 450 },
         velocity: { x: 2, y: 2 }
+    }
+
+    function draw({ state = {}, canvas = null, ctx }) {
+        [drawBall].forEach(function(f) {
+            f({ state, canvas, ctx })
+        })
+    }
+
+    function drawBall({state, canvas, ctx}) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.fillRect(state.position.x, state.position.y, 6, 6)
     }
 
     gameLoop()
