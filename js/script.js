@@ -9,7 +9,8 @@ window.onload = function() {
     function setup(canvas, ctx) {
         const initialState = {
             ball: {...setupBall},
-            player: {...setupPlayer}
+            player: {...setupPlayer},
+            bricks: {...setupBricks}
         }
         play(initialState, canvas, ctx)
     }
@@ -30,14 +31,27 @@ window.onload = function() {
         position: { x: 200, y: 480 },
     }
 
+    const setupBricks = {
+        size: { x: 20, y: 7 }
+    }
+
     function draw({ state = {}, canvas = null, ctx }) {
-        [drawBall, drawPlayer].forEach(function(f) {
+        [drawBall, drawPlayer, drawBricks].forEach(function(f) {
             f({ state, canvas, ctx })
         })
     }
 
     function drawBall({state, canvas, ctx}) {
         ctx.fillRect(state.ball.position.x, state.ball.position.y, 6, 6)
+    }
+
+    function drawBricks({state, canvas, ctx}) {
+        var bricks = []
+            for (var i = 0; i < 540; i++) {
+                var x = 22 + (i % 20) * 24
+                var y = 40 + (i % 27) * 10
+                ctx.fillRect(x - state.bricks.size.x / 2, y - state.bricks.size.y / 2, state.bricks.size.x, state.bricks.size.y)
+            }
     }
 
     function drawPlayer({state, canvas, ctx}) {
