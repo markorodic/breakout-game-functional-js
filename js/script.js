@@ -16,6 +16,7 @@ window.onload = function() {
     }
 
     function play(state, canvas, ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
         draw({ state: state, canvas, ctx })
         updatePlayer()
         window.requestAnimationFrame(function(){
