@@ -26,7 +26,8 @@ window.onload = function() {
 
     const setupBall = {
         position: { x: 250, y: 450 },
-        velocity: { x: 2, y: -2 }
+        velocity: { x: 2, y: -2 },
+        size: { x: 6, y: 6 }
     }
 
     const setupPlayer = {
@@ -66,6 +67,19 @@ window.onload = function() {
         }
     }
 
+    function collisionDetection({ state = {}, canvas = null }) {
+        if (isballHitsWall(state, canvas)) {
+            state.ball.velocity.x = -state.ball.velocity.x
+        }
+    }
+
+    function isballHitsWall(state, canvas) {
+        const ballRadius = state.ball.size.x / 2
+        const ballCenterX = state.ball.position.x + ballRadius
+        const ballCenterY = state.ball.position.y + ballRadius
+        return (ballCenterX > canvas.width - ballRadius || ballCenterX < ballRadius)
+    }
+
     function updateBall({ state = {}, canvas = null, ctx }) {
         state.ball.position.x += state.ball.velocity.x
         state.ball.position.y += state.ball.velocity.y
@@ -78,13 +92,13 @@ window.onload = function() {
     }
 
     function update({ state = {}, canvas = null, ctx }) {
-        [updatePlayer, updateBall].forEach(function(f) {
+        [updatePlayer, updateBall, collisionDetection].forEach(function(f) {
             f({ state, canvas, ctx })
         })
     }
 
     function drawBall({state, canvas, ctx}) {
-        ctx.fillRect(state.ball.position.x, state.ball.position.y, 6, 6)
+        ctx.fillRect(state.ball.position.x, state.ball.position.y, state.ball.size.x, state.ball.size.y)
     }
 
     function drawBricks({state, canvas, ctx}) {
