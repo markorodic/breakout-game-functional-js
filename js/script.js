@@ -32,6 +32,7 @@ window.onload = function() {
 
     const setupPlayer = {
         position: { x: 200, y: 480 },
+        size: { x: 100, y: 5 },
     }
 
     const setupBricks = {
@@ -68,13 +69,18 @@ window.onload = function() {
     }
 
     function collisionDetection({ state = {}, canvas = null }) {
+        console.log(state.ball.velocity.y)
+
         if (isballHitsWall(state, canvas)) {
             state.ball.velocity.x = -state.ball.velocity.x
         }
         if (isballHitsCeiling(state, canvas)) {
             state.ball.velocity.y = -state.ball.velocity.y
         }
-
+        if (isballHitsPlayer(state, canvas)) {
+            console.log('change')
+            state.ball.velocity.y = -state.ball.velocity.y
+        }
     }
 
     function isballHitsWall(state, canvas) {
@@ -87,6 +93,15 @@ window.onload = function() {
         const ballRadius = state.ball.size.x / 2
         const ballCenterY = state.ball.position.y + ballRadius
         return (ballCenterY < ballRadius)
+    }
+
+    function isballHitsPlayer(state, canvas) {
+        const ballRadius = state.ball.size.x / 2
+        const ballCenterX = state.ball.position.x + ballRadius
+        const ballCenterY = state.ball.position.y + ballRadius
+        const playerCenterX = state.player.position.x + state.player.size.x / 2
+        const playerCenterY = state.player.position.y + state.player.size.y / 2
+        return (ballCenterY + 20 >= canvas.height && playerCenterX - state.player.size.x / 2 < ballCenterX && ballCenterX < playerCenterX + state.player.size.x / 2)
     }
 
     function updateBall({ state = {}, canvas = null, ctx }) {
@@ -120,7 +135,7 @@ window.onload = function() {
     }
 
     function drawPlayer({state, canvas, ctx}) {
-        ctx.fillRect(state.player.position.x, state.player.position.y, 100, 5)
+        ctx.fillRect(state.player.position.x, state.player.position.y, state.player.size.x, state.player.size.y)
     }
 
     gameLoop()
