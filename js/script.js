@@ -71,13 +71,22 @@ window.onload = function() {
         if (isballHitsWall(state, canvas)) {
             state.ball.velocity.x = -state.ball.velocity.x
         }
+        if (isballHitsCeiling(state, canvas)) {
+            state.ball.velocity.y = -state.ball.velocity.y
+        }
+
     }
 
     function isballHitsWall(state, canvas) {
         const ballRadius = state.ball.size.x / 2
         const ballCenterX = state.ball.position.x + ballRadius
-        const ballCenterY = state.ball.position.y + ballRadius
         return (ballCenterX > canvas.width - ballRadius || ballCenterX < ballRadius)
+    }
+
+    function isballHitsCeiling(state) {
+        const ballRadius = state.ball.size.x / 2
+        const ballCenterY = state.ball.position.y + ballRadius
+        return (ballCenterY < ballRadius)
     }
 
     function updateBall({ state = {}, canvas = null, ctx }) {
