@@ -26,7 +26,7 @@ window.onload = function() {
 
     const setupBall = {
         position: { x: 250, y: 450 },
-        velocity: { x: 2, y: 2 }
+        velocity: { x: 2, y: -2 }
     }
 
     const setupPlayer = {
@@ -66,6 +66,11 @@ window.onload = function() {
         }
     }
 
+    function updateBall({ state = {}, canvas = null, ctx }) {
+        state.ball.position.x += state.ball.velocity.x
+        state.ball.position.y += state.ball.velocity.y
+    }
+
     function draw({ state = {}, canvas = null, ctx }) {
         [drawBall, drawPlayer, drawBricks].forEach(function(f) {
             f({ state, canvas, ctx })
@@ -73,7 +78,7 @@ window.onload = function() {
     }
 
     function update({ state = {}, canvas = null, ctx }) {
-        [updatePlayer].forEach(function(f) {
+        [updatePlayer, updateBall].forEach(function(f) {
             f({ state, canvas, ctx })
         })
     }
