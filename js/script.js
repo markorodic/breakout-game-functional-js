@@ -18,7 +18,7 @@ window.onload = function() {
     function play(state, canvas, ctx) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         draw({ state: state, canvas, ctx })
-        updatePlayer()
+        update({ state: state, canvas, ctx })
         window.requestAnimationFrame(function(){
             play(state, canvas, ctx)
         })
@@ -57,17 +57,23 @@ window.onload = function() {
 
     window.onkeyup = (e) => keyState = null
 
-    function updatePlayer() {
+    function updatePlayer({ state = {}, canvas = null, ctx }) {
         if (keyState == 'LEFT_KEY') {
-            setupPlayer.position.x += keys.LEFT.x
+            state.player.position.x += keys.LEFT.x
         }
         if (keyState == 'RIGHT_KEY') {
-            setupPlayer.position.x += keys.RIGHT.x
+            state.player.position.x += keys.RIGHT.x
         }
     }
 
     function draw({ state = {}, canvas = null, ctx }) {
         [drawBall, drawPlayer, drawBricks].forEach(function(f) {
+            f({ state, canvas, ctx })
+        })
+    }
+
+    function update({ state = {}, canvas = null, ctx }) {
+        [updatePlayer].forEach(function(f) {
             f({ state, canvas, ctx })
         })
     }
