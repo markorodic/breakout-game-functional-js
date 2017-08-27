@@ -69,8 +69,6 @@ window.onload = function() {
     }
 
     function collisionDetection({ state = {}, canvas = null }) {
-        console.log(state.ball.velocity.y)
-
         if (isballHitsWall(state, canvas)) {
             state.ball.velocity.x = -state.ball.velocity.x
         }
@@ -78,9 +76,18 @@ window.onload = function() {
             state.ball.velocity.y = -state.ball.velocity.y
         }
         if (isballHitsPlayer(state, canvas)) {
-            console.log('change')
             state.ball.velocity.y = -state.ball.velocity.y
         }
+        if (isBallFall(state, canvas)) {
+            state.ball.position = { x: 250, y: 450 }
+            state.ball.velocity = { x: 2, y: -2 }
+        }
+    }
+
+    function isBallFall(state, canvas) {
+        const ballRadius = state.ball.size.x / 2
+        const ballCenterY = state.ball.position.y + ballRadius
+        return (ballCenterY >= canvas.height)
     }
 
     function isballHitsWall(state, canvas) {
