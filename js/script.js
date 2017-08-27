@@ -7,6 +7,7 @@ window.onload = function() {
     }
 
     function setup(canvas, ctx) {
+        // makeBricks()
         const initialState = {
             ball: {...setupBall},
             player: {...setupPlayer},
@@ -36,7 +37,18 @@ window.onload = function() {
     }
 
     const setupBricks = {
-        size: { x: 20, y: 7 }
+        size: { x: 20, y: 7 },
+        allBricks: makeBricks()
+    }
+
+    function makeBricks() {
+        var bricks = []
+        for (var i = 0; i < 540; i++) {
+            var x = 22 + (i % 20) * 24
+            var y = 40 + (i % 27) * 10
+            bricks.push({ x: x, y: y})
+        }
+        return bricks
     }
 
     const keys = {
@@ -85,6 +97,24 @@ window.onload = function() {
             state.ball.position = { x: 250, y: 450 }
             state.ball.velocity = { x: 0, y: 0 }
         }
+        if (isBrickHit(state, canvas)) {
+            state.ball.velocity.y = -state.ball.velocity.y
+        }
+    }
+
+    function isBrickHit(state, canvas) {
+        var bool = false
+        state.bricks.allBricks.forEach(function(brick) {
+            var brickX = brick.x - state.bricks.size.x / 2
+            var brickY = brick.y - state.bricks.size.y / 2
+            const ballRadius = state.ball.size.x / 2
+            const ballCenterX = state.ball.position.x + ballRadius
+            const ballCenterY = state.ball.position.y + ballRadius
+            if (ballCenterX > brickX && ballCenterX < brickX + state.bricks.size.x && ballCenterY > brickY && ballCenterY < brickY + state.bricks.size.y) {
+                bool = true
+            }
+        })
+        return bool
     }
 
     function isBallFall(state, canvas) {
@@ -110,8 +140,7 @@ window.onload = function() {
         const ballCenterX = state.ball.position.x + ballRadius
         const ballCenterY = state.ball.position.y + ballRadius
         const playerCenterX = state.player.position.x + state.player.size.x / 2
-        const playerCenterY = state.player.position.y + state.player.size.y / 2
-        return (ballCenterY >= playerCenterY && playerCenterX - state.player.size.x / 2 < ballCenterX && ballCenterX < playerCenterX + state.player.size.x / 2)
+        return (ballCenterY >= canvas.height - state.player.size.y && playerCenterX - state.player.size.x / 2 < ballCenterX && ballCenterX < playerCenterX + state.player.size.x / 2)
     }
 
     function updateBall({ state = {}, canvas = null, ctx }) {
@@ -136,12 +165,9 @@ window.onload = function() {
     }
 
     function drawBricks({state, canvas, ctx}) {
-        var bricks = []
-        for (var i = 0; i < 540; i++) {
-            var x = 22 + (i % 20) * 24
-            var y = 40 + (i % 27) * 10
-            ctx.fillRect(x - state.bricks.size.x / 2, y - state.bricks.size.y / 2, state.bricks.size.x, state.bricks.size.y)
-        }
+        state.bricks.allBricks.forEach(function(brick) {
+            ctx.fillRect(brick.x - state.bricks.size.x / 2, brick.y - state.bricks.size.y / 2, state.bricks.size.x, state.bricks.size.y)
+        })
     }
 
     function drawPlayer({state, canvas, ctx}) {
