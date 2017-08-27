@@ -31,8 +31,8 @@ window.onload = function() {
     }
 
     const setupPlayer = {
-        position: { x: 200, y: 480 },
-        size: { x: 100, y: 5 },
+        position: { x: 200, y: 493 },
+        size: { x: 100, y: 7 },
     }
 
     const setupBricks = {
@@ -108,7 +108,7 @@ window.onload = function() {
         const ballCenterY = state.ball.position.y + ballRadius
         const playerCenterX = state.player.position.x + state.player.size.x / 2
         const playerCenterY = state.player.position.y + state.player.size.y / 2
-        return (ballCenterY + 20 >= canvas.height && playerCenterX - state.player.size.x / 2 < ballCenterX && ballCenterX < playerCenterX + state.player.size.x / 2)
+        return (ballCenterY >= playerCenterY && playerCenterX - state.player.size.x / 2 < ballCenterX && ballCenterX < playerCenterX + state.player.size.x / 2)
     }
 
     function updateBall({ state = {}, canvas = null, ctx }) {
