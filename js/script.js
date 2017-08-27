@@ -26,7 +26,7 @@ window.onload = function() {
 
     const setupBall = {
         position: { x: 250, y: 450 },
-        velocity: { x: 2, y: -2 },
+        velocity: { x: 0, y: 0 },
         size: { x: 6, y: 6 }
     }
 
@@ -66,6 +66,9 @@ window.onload = function() {
         if (keyState == 'RIGHT_KEY') {
             state.player.position.x += keys.RIGHT.x
         }
+        if (keyState == 'SPACE_KEY') {
+            state.ball.velocity = { x: 2, y: -2 }
+        }
     }
 
     function collisionDetection({ state = {}, canvas = null }) {
@@ -80,7 +83,7 @@ window.onload = function() {
         }
         if (isBallFall(state, canvas)) {
             state.ball.position = { x: 250, y: 450 }
-            state.ball.velocity = { x: 2, y: -2 }
+            state.ball.velocity = { x: 0, y: 0 }
         }
     }
 
