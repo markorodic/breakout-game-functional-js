@@ -117,6 +117,17 @@ window.onload = function() {
         return bool
     }
 
+    function filterBricks({ state = {}, canvas = null }) {
+        state.bricks.allBricks = state.bricks.allBricks.filter(function(brick) {
+            var brickX = brick.x - state.bricks.size.x / 2
+            var brickY = brick.y - state.bricks.size.y / 2
+            const ballRadius = state.ball.size.x / 2
+            const ballCenterX = state.ball.position.x + ballRadius
+            const ballCenterY = state.ball.position.y + ballRadius
+            return !(ballCenterX > brickX && ballCenterX < brickX + state.bricks.size.x && ballCenterY > brickY && ballCenterY < brickY + state.bricks.size.y)
+        })
+    }
+
     function isBallFall(state, canvas) {
         const ballRadius = state.ball.size.x / 2
         const ballCenterY = state.ball.position.y + ballRadius
@@ -155,7 +166,7 @@ window.onload = function() {
     }
 
     function update({ state = {}, canvas = null, ctx }) {
-        [updatePlayer, updateBall, collisionDetection].forEach(function(f) {
+        [updatePlayer, updateBall, collisionDetection, filterBricks].forEach(function(f) {
             f({ state, canvas, ctx })
         })
     }
