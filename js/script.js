@@ -100,6 +100,7 @@ window.onload = function() {
         }
         if (isBrickHit(state, canvas)) {
             newState.ball.velocity.y = -newState.ball.velocity.y
+            filterBricks(newState)
         }
         return newState
     }
@@ -120,16 +121,14 @@ window.onload = function() {
     }
 
     function filterBricks(state) {
-        let newState = state
-        newState.bricks.allBricks = newState.bricks.allBricks.filter(function(brick) {
-            var brickX = brick.x - newState.bricks.size.x / 2
-            var brickY = brick.y - newState.bricks.size.y / 2
-            const ballRadius = newState.ball.size.x / 2
-            const ballCenterX = newState.ball.position.x + ballRadius
-            const ballCenterY = newState.ball.position.y + ballRadius
-            return !(ballCenterX > brickX && ballCenterX < brickX + newState.bricks.size.x && ballCenterY > brickY && ballCenterY < brickY + newState.bricks.size.y)
+        state.bricks.allBricks = state.bricks.allBricks.filter(function(brick) {
+            var brickX = brick.x - state.bricks.size.x / 2
+            var brickY = brick.y - state.bricks.size.y / 2
+            const ballRadius = state.ball.size.x / 2
+            const ballCenterX = state.ball.position.x + ballRadius
+            const ballCenterY = state.ball.position.y + ballRadius
+            return !(ballCenterX > brickX && ballCenterX < brickX + state.bricks.size.x && ballCenterY > brickY && ballCenterY < brickY + state.bricks.size.y)
         })
-        return newState
     }
 
     function isBallFall(state, canvas) {
