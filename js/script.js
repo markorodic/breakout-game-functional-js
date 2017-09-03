@@ -3,11 +3,6 @@ window.onload = function() {
     function gameLoop() {
         let canvas = document.getElementById("screen")
         let ctx = canvas.getContext('2d')
-        setup(canvas, ctx)
-    }
-
-    function setup(canvas, ctx) {
-        // makeBricks()
         const initialState = {
             ball: {...setupBall},
             player: {...setupPlayer},
@@ -19,9 +14,12 @@ window.onload = function() {
     function play(state, canvas, ctx) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         draw({ state: state, canvas, ctx })
-        update({ state: state, canvas, ctx })
+        newState = collisionDetection(
+            updatePlayer(
+            updateBall(state)
+            ), canvas)
         window.requestAnimationFrame(function(){
-            play(state, canvas, ctx)
+            play(newState, canvas, ctx)
         })
     }
 
@@ -71,35 +69,39 @@ window.onload = function() {
 
     window.onkeyup = (e) => keyState = null
 
-    function updatePlayer({ state = {}, canvas = null, ctx }) {
+    function updatePlayer(state) {
+        let newState = state
         if (keyState == 'LEFT_KEY') {
-            state.player.position.x += keys.LEFT.x
+            newState.player.position.x += keys.LEFT.x
         }
         if (keyState == 'RIGHT_KEY') {
-            state.player.position.x += keys.RIGHT.x
+            newState.player.position.x += keys.RIGHT.x
         }
         if (keyState == 'SPACE_KEY') {
-            state.ball.velocity = { x: 2, y: -2 }
+            newState.ball.velocity = { x: 2, y: -2 }
         }
+        return newState
     }
 
-    function collisionDetection({ state = {}, canvas = null }) {
+    function collisionDetection(state, canvas) {
+        let newState = state
         if (isballHitsWall(state, canvas)) {
-            state.ball.velocity.x = -state.ball.velocity.x
+            newState.ball.velocity.x = -newState.ball.velocity.x
         }
         if (isballHitsCeiling(state, canvas)) {
-            state.ball.velocity.y = -state.ball.velocity.y
+            newState.ball.velocity.y = -newState.ball.velocity.y
         }
         if (isballHitsPlayer(state, canvas)) {
-            state.ball.velocity.y = -state.ball.velocity.y
+            newState.ball.velocity.y = -newState.ball.velocity.y
         }
         if (isBallFall(state, canvas)) {
-            state.ball.position = { x: 250, y: 450 }
-            state.ball.velocity = { x: 0, y: 0 }
+            newState.ball.position = { x: 250, y: 450 }
+            newState.ball.velocity = { x: 0, y: 0 }
         }
         if (isBrickHit(state, canvas)) {
-            state.ball.velocity.y = -state.ball.velocity.y
+            newState.ball.velocity.y = -newState.ball.velocity.y
         }
+        return newState
     }
 
     function isBrickHit(state, canvas) {
@@ -117,15 +119,17 @@ window.onload = function() {
         return bool
     }
 
-    function filterBricks({ state = {}, canvas = null }) {
-        state.bricks.allBricks = state.bricks.allBricks.filter(function(brick) {
-            var brickX = brick.x - state.bricks.size.x / 2
-            var brickY = brick.y - state.bricks.size.y / 2
-            const ballRadius = state.ball.size.x / 2
-            const ballCenterX = state.ball.position.x + ballRadius
-            const ballCenterY = state.ball.position.y + ballRadius
-            return !(ballCenterX > brickX && ballCenterX < brickX + state.bricks.size.x && ballCenterY > brickY && ballCenterY < brickY + state.bricks.size.y)
+    function filterBricks(state) {
+        let newState = state
+        newState.bricks.allBricks = newState.bricks.allBricks.filter(function(brick) {
+            var brickX = brick.x - newState.bricks.size.x / 2
+            var brickY = brick.y - newState.bricks.size.y / 2
+            const ballRadius = newState.ball.size.x / 2
+            const ballCenterX = newState.ball.position.x + ballRadius
+            const ballCenterY = newState.ball.position.y + ballRadius
+            return !(ballCenterX > brickX && ballCenterX < brickX + newState.bricks.size.x && ballCenterY > brickY && ballCenterY < brickY + newState.bricks.size.y)
         })
+        return newState
     }
 
     function isBallFall(state, canvas) {
@@ -154,9 +158,11 @@ window.onload = function() {
         return (ballCenterY >= canvas.height - state.player.size.y && playerCenterX - state.player.size.x / 2 < ballCenterX && ballCenterX < playerCenterX + state.player.size.x / 2)
     }
 
-    function updateBall({ state = {}, canvas = null, ctx }) {
-        state.ball.position.x += state.ball.velocity.x
-        state.ball.position.y += state.ball.velocity.y
+    function updateBall(state) {
+        let newState = state
+        newState.ball.position.x += newState.ball.velocity.x
+        newState.ball.position.y += newState.ball.velocity.y
+        return newState
     }
 
     function draw({ state = {}, canvas = null, ctx }) {
@@ -165,11 +171,11 @@ window.onload = function() {
         })
     }
 
-    function update({ state = {}, canvas = null, ctx }) {
-        [updatePlayer, updateBall, collisionDetection, filterBricks].forEach(function(f) {
-            f({ state, canvas, ctx })
-        })
-    }
+    // function update({ state = {}, canvas = null, ctx }) {
+    //     [updatePlayer, updateBall, collisionDetection, filterBricks].forEach(function(f) {
+    //         f({ state, canvas, ctx })
+    //     })
+    // }
 
     function drawBall({state, canvas, ctx}) {
         ctx.fillRect(state.ball.position.x, state.ball.position.y, state.ball.size.x, state.ball.size.y)
