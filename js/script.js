@@ -13,11 +13,7 @@ window.onload = function() {
 
     function play(state, canvas, ctx) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        draw({ state: state, canvas, ctx })
-        newState = collisionDetection(
-            updatePlayer(
-            updateBall(state)
-            ), canvas)
+        newState = draw(collisionDetection(updatePlayer(updateBall(state)), canvas), canvas, ctx)
         window.requestAnimationFrame(function(){
             play(newState, canvas, ctx)
         })
@@ -63,9 +59,7 @@ window.onload = function() {
 
     let keyState = null
 
-    window.onkeydown = (e) => {
-        keyState = whichKey[e.keyCode]
-    }
+    window.onkeydown = (e) => keyState = whichKey[e.keyCode]
 
     window.onkeyup = (e) => keyState = null
 
@@ -164,17 +158,12 @@ window.onload = function() {
         return newState
     }
 
-    function draw({ state = {}, canvas = null, ctx }) {
+    function draw(state, canvas, ctx) {
         [drawBall, drawPlayer, drawBricks].forEach(function(f) {
             f({ state, canvas, ctx })
         })
+        return state
     }
-
-    // function update({ state = {}, canvas = null, ctx }) {
-    //     [updatePlayer, updateBall, collisionDetection, filterBricks].forEach(function(f) {
-    //         f({ state, canvas, ctx })
-    //     })
-    // }
 
     function drawBall({state, canvas, ctx}) {
         ctx.fillRect(state.ball.position.x, state.ball.position.y, state.ball.size.x, state.ball.size.y)
