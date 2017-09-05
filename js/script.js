@@ -13,10 +13,23 @@ window.onload = function() {
 
     function play(state, canvas, ctx) {
         ctx.clearRect(0, 0, canvas.width, canvas.height)
-        newState = draw(collisionDetection(updatePlayer(updateBall(state)), canvas), canvas, ctx)
+        let newState = update(state, canvas, ctx)
         window.requestAnimationFrame(function(){
             play(newState, canvas, ctx)
         })
+    }
+
+    function update(state, canvas, ctx) {
+        let newState = [
+            state,
+            draw,
+            updateBall,
+            updatePlayer,
+            collisionDetection
+        ].reduce(function(currentState, update) {
+            return update(currentState, canvas, ctx)
+        })
+        return newState
     }
 
     const setupBall = {
