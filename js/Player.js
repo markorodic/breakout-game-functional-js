@@ -24,10 +24,18 @@
     function updatePlayer(state) {
         let newState = state
         if (keyState == 'LEFT_KEY') {
-            newState.player.position.x += keys.LEFT.x
+            if (state.player.position.x < 0) {
+                newState.player.position.x
+            } else {
+                newState.player.position.x += keys.LEFT.x
+            }       
         }
         if (keyState == 'RIGHT_KEY') {
-            newState.player.position.x += keys.RIGHT.x
+            if (state.player.position.x > 400) {
+                newState.player.position.x
+            } else {
+                newState.player.position.x += keys.RIGHT.x
+            }        
         }
         if (keyState == 'SPACE_KEY') {
             newState.ball.velocity = { x: 2, y: -2 }
