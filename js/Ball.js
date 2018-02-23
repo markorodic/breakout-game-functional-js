@@ -1,5 +1,5 @@
     const setupBall = {
-        position: { x: 250, y: 450 },
+        position: { x: 193, y: 282 },
         velocity: { x: 0, y: 0 },
         size: { x: 6, y: 6 }
     }

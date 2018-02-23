@@ -1,14 +1,15 @@
         const setupBricks = {
-        size: { x: 20, y: 7 },
-        allBricks: makeBricks()
+        size: { x: 32, y: 10 },
+        allBricks: makeBricks(),
     }
 
     function makeBricks() {
         var bricks = []
-        for (var i = 0; i < 540; i++) {
-            var x = 22 + (i % 20) * 24
-            var y = 40 + (i % 27) * 10
-            bricks.push({ x: x, y: y})
+        for (var i = 0; i < 84; i++) {
+            var x = 10 + (i % 13)* 31
+            var y = 105 + (i % 6) * 10
+            var colour = whichColour(y)
+            bricks.push({ x: x, y: y, colour: colour})
         }
         return bricks
     }
@@ -38,4 +39,22 @@
             const ballCenterY = state.ball.position.y + ballRadius
             return !(ballCenterX > brickX && ballCenterX < brickX + state.bricks.size.x && ballCenterY > brickY && ballCenterY < brickY + state.bricks.size.y)
         })
+    }
+
+    function whichColour(xPostion) {
+        switch (xPostion) {
+            case 105:
+                return '#C6494B'
+            case 115:
+                return '#C46C40'
+            case 125:
+                return '#B37938'
+            case 135:
+                return '#A2A136'
+            case 145:
+            return '#4B9F4C'
+            case 155:
+                return '#434DC5'
+            break;
+        }
     }

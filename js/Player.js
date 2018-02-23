@@ -1,6 +1,6 @@
     const setupPlayer = {
-        position: { x: 200, y: 493 },
-        size: { x: 100, y: 7 },
+        position: { x: 166, y: 564 },
+        size: { x: 60, y: 6},
     }
 
     const keys = {

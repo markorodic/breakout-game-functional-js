@@ -1,13 +1,14 @@
 body {
     margin: 0px;
+    font-family: 'Press Start 2P', cursive;
 }
 canvas {
-    min-width: 500px;
-    background: #eee;
+	min-width: 392px;
+	background: #141414;
 }
 
 div {
-    background: lightgrey;
+	background: black;
     height: 100vh;
     display: flex;
     justify-content: center;
