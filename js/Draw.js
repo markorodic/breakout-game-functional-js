@@ -24,13 +24,13 @@ function drawLives({state, canvas, ctx}) {
 
 function drawBall({state, canvas, ctx}) {
     ctx.fillStyle = '#C6494B'
-    ctx.fillRect(state.ball.position.x, state.ball.position.y, state.ball.size.x, state.ball.size.y)
+    ctx.fillRect(state.ball.position.x, state.ball.position.y, state.ball.diameter, state.ball.diameter)
 }
 
 function drawBricks({state, canvas, ctx}) {
     state.bricks.allBricks.forEach(function(brick) {
         ctx.fillStyle = brick.colour
-        ctx.fillRect(brick.x - state.bricks.size.x / 2, brick.y - state.bricks.size.y / 2, state.bricks.size.x, state.bricks.size.y)
+        ctx.fillRect(brick.x, brick.y, state.bricks.size.x, state.bricks.size.y)
     })
 }
 
