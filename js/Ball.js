@@ -1,9 +1,3 @@
-const setupBall = {
-    position: { x: 193, y: 282 },
-    velocity: { x: 0, y: 0 },
-    diameter: 6
-}
-
 function updateBall(state) {
     const newState = state
 

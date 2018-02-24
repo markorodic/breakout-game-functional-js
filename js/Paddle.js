@@ -1,10 +1,3 @@
-const setupPaddle = {
-    position: { x: 166, y: 564 },
-    size: { width: 60, height: 6},
-    score: 0,
-    lives: 3
-}
-
 const move = {
     paddleLeft: -4,
     paddleRight: 4,
@@ -12,7 +5,7 @@ const move = {
 }
 
 function updatePaddle(state, canvas) {
-    let newState = state
+    const newState = state
     const paddleCanMoveLeft = state.paddle.position.x > 0
     const paddleCanMoveRight = state.paddle.position.x < canvas.width - state.paddle.size.width
     const leftKeyPressed = keyState == 'LEFT_KEY'

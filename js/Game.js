@@ -1,24 +1,22 @@
 function gameLoop() {
-    let canvas = document.getElementById("screen")
-    let ctx = canvas.getContext('2d')
-    const initialState = {
-        ball: {...setupBall},
-        paddle: {...setupPaddle},
-        bricks: {...setupBricks}
-    }
-    play(initialState, canvas, ctx)
+    const canvas = document.getElementById("screen")
+    const ctx = canvas.getContext('2d')
+    const state = initialState
+
+    play(state, canvas, ctx)
 }
 
 function play(state, canvas, ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    let newState = update(state, canvas, ctx)
+    const newState = update(state, canvas, ctx)
+
     window.requestAnimationFrame(function(){
         play(newState, canvas, ctx)
     })
 }
 
 function update(state, canvas, ctx) {
-    let newState = [
+    const newState = [
         state,
         draw,
         updateBall,
@@ -27,5 +25,6 @@ function update(state, canvas, ctx) {
     ].reduce(function(currentState, updateFunction) {
         return updateFunction(currentState, canvas, ctx)
     })
+    
     return newState
 }

@@ -17,13 +17,13 @@ function drawSpace({state, canvas, ctx}) {
 
 function drawScore({state, canvas, ctx}) {
     ctx.fillStyle = 'white'
-    ctx.fillText(state.paddle.score, 96, 50)
+    ctx.fillText(state.game.score, 96, 50)
     ctx.font = '42px "Press Start 2P"'
 }
 
 function drawLives({state, canvas, ctx}) {
     ctx.fillStyle = 'white'
-    ctx.fillText(state.paddle.lives, 257, 50)
+    ctx.fillText(state.game.lives, 257, 50)
     ctx.font = '42px "Press Start 2P"'
 }
 
