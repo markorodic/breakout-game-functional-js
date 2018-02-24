@@ -1,30 +1,12 @@
-function gameLoop() {
-    const canvas = document.getElementById("screen")
-    const ctx = canvas.getContext('2d')
-    const state = initialState
+function updateGameSystems(state, canvas) {
+    const newState = state
 
-    play(state, canvas, ctx)
-}
+    if (ballFalls(state.ball, canvas)) {
+        newState.game.lives -= 1
+    }
+    if (ballHitsBrick(state.bricks, state.ball)) {
+        newState.game.score += 1
+    }
 
-function play(state, canvas, ctx) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    const newState = update(state, canvas, ctx)
-
-    window.requestAnimationFrame(function(){
-        play(newState, canvas, ctx)
-    })
-}
-
-function update(state, canvas, ctx) {
-    const newState = [
-        state,
-        draw,
-        updateBall,
-        updatePaddle,
-        collisionDetection
-    ].reduce(function(currentState, updateFunction) {
-        return updateFunction(currentState, canvas, ctx)
-    })
-    
     return newState
 }
