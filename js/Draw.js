@@ -1,11 +1,16 @@
 function draw(state, canvas, ctx) {
-    [drawBall, drawPaddle, drawBricks, drawGap, drawScore, drawLives].forEach(function(f) {
-        f({ state, canvas, ctx })
+    [drawBall,
+    drawPaddle,
+    drawBricks,
+    drawSpace,
+    drawScore,
+    drawLives].forEach(function(drawFunction) {
+        drawFunction({ state, canvas, ctx })
     })
     return state
 }
 
-function drawGap({state, canvas, ctx}) {
+function drawSpace({state, canvas, ctx}) {
     ctx.fillStyle = 'black'
     ctx.fillRect(0, 55, 392, 15)
 }
@@ -23,18 +28,21 @@ function drawLives({state, canvas, ctx}) {
 }
 
 function drawBall({state, canvas, ctx}) {
+    const ball = state.ball
     ctx.fillStyle = '#C6494B'
-    ctx.fillRect(state.ball.position.x, state.ball.position.y, state.ball.diameter, state.ball.diameter)
+    ctx.fillRect(ball.position.x, ball.position.y, ball.diameter, ball.diameter)
 }
 
 function drawBricks({state, canvas, ctx}) {
     state.bricks.allBricks.forEach(function(brick) {
+        const bricks = state.bricks
         ctx.fillStyle = brick.colour
-        ctx.fillRect(brick.x, brick.y, state.bricks.size.x, state.bricks.size.y)
+        ctx.fillRect(brick.x, brick.y, bricks.size.x, bricks.size.y)
     })
 }
 
 function drawPaddle({state, canvas, ctx}) {
+    const paddle = state.paddle
     ctx.fillStyle = '#C6494B'
-    ctx.fillRect(state.paddle.position.x, state.paddle.position.y, state.paddle.size.width, state.paddle.size.height)
+    ctx.fillRect(paddle.position.x, paddle.position.y, paddle.size.width, paddle.size.height)
 }
