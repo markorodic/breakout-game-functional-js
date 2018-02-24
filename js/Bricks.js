@@ -4,25 +4,24 @@ const setupBricks = {
 }
 
 function makeBricks() {
-    var bricks = []
-    for (var i = 0; i < 84; i++) {
-        var x = (i % 13)* 31
-        var y = 105 + (i % 6) * 10
+    let emptyBrickList = Array(84).fill({ x: 0, y: 0, colour: ''})
+    return assignBrickPositions(emptyBrickList)
+}
+
+function assignBrickPositions(emptyBrickList) {
+    let assignedBrickList = emptyBrickList.map(function(brick, index) {
+        var x = (index % 13)* 31
+        var y = 105 + (index % 6) * 10
         var colour = whichColour(y)
-        bricks.push({ x: x, y: y, colour: colour})
-    }
-    return bricks
+        return { x: x, y: y, colour: colour}
+    })
+    return assignedBrickList
 }
 
 function filterBricks(state) {
     let newState = state
     newState.bricks.allBricks = state.bricks.allBricks.filter(function(brick) {
-        var brickX = brick.x - state.bricks.size.x / 2
-        var brickY = brick.y - state.bricks.size.y / 2
-        const ballRadius = state.ball.diameter / 2
-        const ballCenterX = state.ball.position.x + ballRadius
-        const ballCenterY = state.ball.position.y + ballRadius
-        return !(ballCenterX > brickX && ballCenterX < brickX + state.bricks.size.x && ballCenterY > brickY && ballCenterY < brickY + state.bricks.size.y)
+        return !ballHitsABrick(brick, state.bricks, state.ball)
     })
 }
 
