@@ -3,7 +3,7 @@ function gameLoop() {
     let ctx = canvas.getContext('2d')
     const initialState = {
         ball: {...setupBall},
-        player: {...setupPlayer},
+        paddle: {...setupPaddle},
         bricks: {...setupBricks}
     }
     play(initialState, canvas, ctx)
@@ -22,7 +22,7 @@ function update(state, canvas, ctx) {
         state,
         draw,
         updateBall,
-        updatePlayer,
+        updatePaddle,
         collisionDetection
     ].reduce(function(currentState, updateFunction) {
         return updateFunction(currentState, canvas, ctx)

@@ -1,5 +1,5 @@
 function draw(state, canvas, ctx) {
-    [drawBall, drawPlayer, drawBricks, drawGap, drawScore, drawLives].forEach(function(f) {
+    [drawBall, drawPaddle, drawBricks, drawGap, drawScore, drawLives].forEach(function(f) {
         f({ state, canvas, ctx })
     })
     return state
@@ -12,13 +12,13 @@ function drawGap({state, canvas, ctx}) {
 
 function drawScore({state, canvas, ctx}) {
     ctx.fillStyle = 'white'
-    ctx.fillText(state.player.score, 96, 50)
+    ctx.fillText(state.paddle.score, 96, 50)
     ctx.font = '42px "Press Start 2P"'
 }
 
 function drawLives({state, canvas, ctx}) {
     ctx.fillStyle = 'white'
-    ctx.fillText(state.player.lives, 257, 50)
+    ctx.fillText(state.paddle.lives, 257, 50)
     ctx.font = '42px "Press Start 2P"'
 }
 
@@ -34,7 +34,7 @@ function drawBricks({state, canvas, ctx}) {
     })
 }
 
-function drawPlayer({state, canvas, ctx}) {
+function drawPaddle({state, canvas, ctx}) {
     ctx.fillStyle = '#C6494B'
-    ctx.fillRect(state.player.position.x, state.player.position.y, state.player.size.x, state.player.size.y)
+    ctx.fillRect(state.paddle.position.x, state.paddle.position.y, state.paddle.size.width, state.paddle.size.height)
 }

@@ -1,7 +1,7 @@
 function collisionDetection(state, canvas) {
     const newState = state
     const ball = state.ball
-    const player = state.player
+    const paddle = state.paddle
     const bricks = state.bricks
 
     if (ballHitsWall(ball, canvas)) {
@@ -10,7 +10,7 @@ function collisionDetection(state, canvas) {
     if (ballHitsCeiling(ball, canvas)) {
         newState.ball.velocity.y = -newState.ball.velocity.y
     }
-    if (ballHitsPaddle(ball, player, canvas)) {
+    if (ballHitsPaddle(ball, paddle, canvas)) {
         newState.ball.velocity.y = -newState.ball.velocity.y
     }
     if (ballFalls(ball, canvas)) {
@@ -38,8 +38,8 @@ function ballHitsCeiling(ball) {
     return ball.position.y < 0
 }
 
-function ballHitsPaddle(ball, player, canvas) {
-    const ballIsbetweenPaddleEdges = ball.position.x > player.position.x && ball.position.x < player.position.x + player.size.x
+function ballHitsPaddle(ball, paddle, canvas) {
+    const ballIsbetweenPaddleEdges = ball.position.x > paddle.position.x && ball.position.x < paddle.position.x + paddle.size.width
     const ballHitsPaddleTop = ball.position.y + ball.diameter >= canvas.height
 
     return ballHitsPaddleTop && ballIsbetweenPaddleEdges
