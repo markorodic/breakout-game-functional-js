@@ -13,9 +13,6 @@ function updatePaddle(state, canvas) {
     if (rightKeyPressed && paddleCanMoveRight) {
         newState.paddlePosition.x += 4
     }
-    if (keyState == 'SPACE_KEY') {
-        newState.ballVelocity = { x: 2, y: -2 }
-    }
 
     return newState
 }
