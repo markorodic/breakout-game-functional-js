@@ -4,11 +4,12 @@ function updateGameSystems(state, canvas) {
 
     if (lives < 0) {
         newState = initialState
+        
     }
     if (ballFalls(ballPosition, canvas)) {
         newState.lives -= 1
     }
-    if (ballHitsBrick(ballPosition, ballDiameter, brickSize, bricks)) {
+    if (ballHitsBrick(ballPosition, bricks)) {
         newState.score += 1
     }
 

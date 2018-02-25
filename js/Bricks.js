@@ -14,9 +14,9 @@ function assignBrickPositions(emptyBrickList) {
 }
 
 function filterBricks(state) {
-    const { ballPosition, ballDiameter, brickSize, bricks } = state
+    const { ballPosition, bricks } = state
     state.bricks = state.bricks.filter(function(brick) {
-        return !ballHitsABrick(ballPosition, ballDiameter, brickSize, brick)
+        return !ballHitsABrick(ballPosition, brick)
     })
 }
 
