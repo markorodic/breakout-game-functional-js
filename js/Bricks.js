@@ -1,4 +1,4 @@
-function makeBricks() {
+function initBricks() {
     const emptyBrickList = Array(84).fill({ x: 0, y: 0, colour: ''})
     return assignBrickPositions(emptyBrickList)
 }
@@ -14,9 +14,9 @@ function assignBrickPositions(emptyBrickList) {
 }
 
 function filterBricks(state) {
-    const newState = state
-    newState.bricks.allBricks = state.bricks.allBricks.filter(function(brick) {
-        return !ballHitsABrick(brick, state.bricks, state.ball)
+    const { ballPosition, ballDiameter, brickSize, bricks } = state
+    state.bricks = state.bricks.filter(function(brick) {
+        return !ballHitsABrick(ballPosition, ballDiameter, brickSize, brick)
     })
 }
 

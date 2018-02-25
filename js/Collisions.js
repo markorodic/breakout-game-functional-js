@@ -1,64 +1,61 @@
 function collisionDetection(state, canvas) {
-    const newState = state
-    const ball = state.ball
-    const paddle = state.paddle
-    const bricks = state.bricks
+    const { ballPosition, ballVelocity, ballDiameter, paddlePosition, paddleSize, brickSize, bricks } = state
+    const newState = {...state}
 
-    if (ballHitsWall(ball, canvas)) {
-        newState.ball.velocity.x = -newState.ball.velocity.x
+    if (ballHitsWall(ballPosition, ballDiameter, canvas)) {
+        newState.ballVelocity.x = -ballVelocity.x
     }
-    if (ballHitsCeiling(ball, canvas)) {
-        newState.ball.velocity.y = -newState.ball.velocity.y
+    if (ballHitsCeiling(ballPosition, ballDiameter)) {
+        newState.ballVelocity.y = -ballVelocity.y
     }
-    if (ballHitsPaddle(ball, paddle, canvas)) {
-        newState.ball.velocity.y = -newState.ball.velocity.y
+    if (ballHitsPaddle(ballPosition, ballDiameter, paddlePosition, paddleSize, canvas)) {
+        newState.ballVelocity.y = -ballVelocity.y
     }
-    if (ballFalls(ball, canvas)) {
-        newState.ball.position = { x: 193, y: 282 },
-        newState.ball.velocity = { x: 0, y: 0 }
+    if (ballFalls(ballPosition, canvas)) {
+        newState.ballPosition = { x: 193, y: 282 },
+        newState.ballVelocity = { x: 0, y: 0 }
     }
-    if (ballHitsBrick(bricks, ball)) {
-        newState.ball.velocity.y = -newState.ball.velocity.y
+    if (ballHitsBrick(ballPosition, ballDiameter, brickSize, bricks)) {
         filterBricks(newState)
+        newState.ballVelocity.y = -ballVelocity.y
     }
     return newState
 }
 
-function ballFalls(ball, canvas) {
-    return ball.position.y >= canvas.height
+function ballFalls(ballPosition, canvas) {
+    return ballPosition.y >= canvas.height
 }
 
-function ballHitsWall(ball, canvas) {
-    const ballBeyondGameSidesBounds = ball.position.x < 0 || ball.position.x + ball.diameter > canvas.width
+function ballHitsWall(ballPosition, ballDiameter, canvas) {
+    const ballBeyondGameSidesBounds = ballPosition.x < 0 || ballPosition.x + ballDiameter > canvas.width
     
     return ballBeyondGameSidesBounds
 }
 
-function ballHitsCeiling(ball) {
-    return ball.position.y < 0
+function ballHitsCeiling(ballPosition, ballDiameter) {
+    return ballPosition.y < 70
 }
 
-function ballHitsPaddle(ball, paddle, canvas) {
-    const ballIsbetweenPaddleEdges = ball.position.x > paddle.position.x && ball.position.x < paddle.position.x + paddle.size.width
-    const ballHitsPaddleTop = ball.position.y + ball.diameter >= canvas.height
+function ballHitsPaddle(ballPosition, ballDiameter, paddlePosition, paddleSize, canvas) {
+    const ballIsbetweenPaddleEdges = ballPosition.x > paddlePosition.x && ballPosition.x < paddlePosition.x + paddleSize.width
+    const ballHitsPaddleTop = ballPosition.y + ballDiameter >= canvas.height
 
     return ballHitsPaddleTop && ballIsbetweenPaddleEdges
 }
 
-function ballHitsBrick(bricks, ball) {
-    let hitBrick = bricks.allBricks.filter(function(brick) {
-        return ballHitsABrick(brick, bricks, ball)
+function ballHitsBrick(ballPosition, ballDiameter, brickSize, bricks) {
+    let hitBrick = bricks.filter(function(brick) {
+        return ballHitsABrick(ballPosition, ballDiameter, brickSize, brick)
     })
     return hitBrick[0]
 }
 
-function ballHitsABrick(brick, bricks, ball) {
-    const ballCenterX = ball.position.x + ball.diameter / 2
-    const ballCenterY = ball.position.y + ball.diameter / 2
-
+function ballHitsABrick(ballPosition, ballDiameter, brickSize, brick) {
+    const ballCenterX = ballPosition.x + ballDiameter / 2
+    const ballCenterY = ballPosition.y + ballDiameter / 2
     const ballIsBeneathBrickTop = ballCenterY > brick.y
-    const ballIsAboveBrickBottom = ballCenterY < brick.y + bricks.size.y
-    const ballIsbetweenBrickSides = ballCenterX > brick.x && ballCenterX < brick.x + bricks.size.x
+    const ballIsAboveBrickBottom = ballCenterY < brick.y + brickSize.y
+    const ballIsbetweenBrickSides = ballCenterX > brick.x && ballCenterX < brick.x + brickSize.x
 
     return ballIsbetweenBrickSides && ballIsBeneathBrickTop && ballIsAboveBrickBottom
 }

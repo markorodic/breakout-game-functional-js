@@ -1,11 +1,15 @@
 function updateGameSystems(state, canvas) {
-    const newState = state
+    const { lives, score, ball, bricks, ballPosition, ballDiameter, brickSize } = state
+    let newState = {...state}
 
-    if (ballFalls(state.ball, canvas)) {
-        newState.game.lives -= 1
+    if (lives < 0) {
+        newState = initialState
     }
-    if (ballHitsBrick(state.bricks, state.ball)) {
-        newState.game.score += 1
+    if (ballFalls(ballPosition, canvas)) {
+        newState.lives -= 1
+    }
+    if (ballHitsBrick(ballPosition, ballDiameter, brickSize, bricks)) {
+        newState.score += 1
     }
 
     return newState

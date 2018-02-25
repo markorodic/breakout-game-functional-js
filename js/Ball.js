@@ -1,8 +1,8 @@
 function updateBall(state) {
-    const newState = state
+    const newState = {...state}
 
-    newState.ball.position.x += newState.ball.velocity.x
-    newState.ball.position.y += newState.ball.velocity.y
+    newState.ballPosition.x += newState.ballVelocity.x
+    newState.ballPosition.y += newState.ballVelocity.y
 
     return newState
 }

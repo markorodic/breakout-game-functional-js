@@ -17,32 +17,34 @@ function drawSpace({state, canvas, ctx}) {
 
 function drawScore({state, canvas, ctx}) {
     ctx.fillStyle = 'white'
-    ctx.fillText(state.game.score, 96, 50)
+    ctx.fillText(state.score, 96, 50)
     ctx.font = '42px "Press Start 2P"'
 }
 
 function drawLives({state, canvas, ctx}) {
     ctx.fillStyle = 'white'
-    ctx.fillText(state.game.lives, 257, 50)
+    ctx.fillText(state.lives, 257, 50)
     ctx.font = '42px "Press Start 2P"'
 }
 
 function drawBall({state, canvas, ctx}) {
-    const ball = state.ball
+    const { ballPosition, ballDiameter } = state
+
     ctx.fillStyle = '#C6494B'
-    ctx.fillRect(ball.position.x, ball.position.y, ball.diameter, ball.diameter)
+    ctx.fillRect(ballPosition.x, ballPosition.y, ballDiameter, ballDiameter)
 }
 
 function drawBricks({state, canvas, ctx}) {
-    state.bricks.allBricks.forEach(function(brick) {
-        const bricks = state.bricks
+    state.bricks.forEach(function(brick) {
+        const { brickSize } = state
         ctx.fillStyle = brick.colour
-        ctx.fillRect(brick.x, brick.y, bricks.size.x, bricks.size.y)
+        ctx.fillRect(brick.x, brick.y, brickSize.x, brickSize.y)
     })
 }
 
 function drawPaddle({state, canvas, ctx}) {
-    const paddle = state.paddle
+    const { paddlePosition, paddleSize } = state
+
     ctx.fillStyle = '#C6494B'
-    ctx.fillRect(paddle.position.x, paddle.position.y, paddle.size.width, paddle.size.height)
+    ctx.fillRect(paddlePosition.x, paddlePosition.y, paddleSize.width, paddleSize.height)
 }
