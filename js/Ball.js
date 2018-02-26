@@ -1,13 +1,19 @@
 function updateBall(state) {
-    const newState = {...state}
-    const { ballVelocity } = state
+    let newState = {...state}
+    const { ballPosition, ballVelocity, gameMode } = state
     const ballIsStationary = ballVelocity.x == 0 
 
-    newState.ballPosition.x += newState.ballVelocity.x
-    newState.ballPosition.y += newState.ballVelocity.y
+    newState.ballPosition.x = ballPosition.x + ballVelocity.x
+    newState.ballPosition.y = ballPosition.y + ballVelocity.y
 
 	if ( keyState == 'SPACE_KEY' && ballIsStationary ) {
-        newState.ballVelocity = {...CONSTANTS.BALL.LAUNCH}
+		if ( gameMode == "start" ) {
+        	newState.ballVelocity = {...CONSTANTS.BALL.LAUNCH}
+		}
+		if ( gameMode == "gameOver" ) {
+        	newState = initialState
+            newState.gameMode = "start"
+		}
     }
 
     return newState
