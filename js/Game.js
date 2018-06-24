@@ -1,4 +1,4 @@
-function updateGameSystems(state, canvas) {
+function updateGame(state, canvas) {
     const { lives, score, ball, bricks, ballPosition, ballDiameter, brickSize, gameMode } = state
     let newState = {...state}
 

@@ -52,8 +52,8 @@ function drawBricks({state, ctx}) {
 }
 
 function drawPaddle({state, ctx}) {
-    const { paddlePosition } = state
+    const { paddlePositionX } = state
 
     ctx.fillStyle = '#C6494B'
-    ctx.fillRect(paddlePosition.x, paddlePosition.y, CONSTANTS.PADDLE.SIZE.width, CONSTANTS.PADDLE.SIZE.height)
+    ctx.fillRect(paddlePositionX, 564, CONSTANTS.PADDLE.SIZE.width, CONSTANTS.PADDLE.SIZE.height)
 }

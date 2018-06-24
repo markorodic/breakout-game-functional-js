@@ -21,7 +21,7 @@ function update(state, canvas, ctx) {
         draw,
         updateBall,
         updatePaddle,
-        updateGameSystems,
+        updateGame,
         collisionDetection
     ].reduce(function(currentState, updateFunction) {
         return updateFunction(currentState, canvas, ctx)
